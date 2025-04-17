@@ -1,7 +1,6 @@
 <?php
 
-
-namespace App\ReservationManagement\Customers\domain\model\queries;
+namespace App\ReservationManagement\Tables\domain\model\queries;
 
 class GetAllTablesQuery
 {
