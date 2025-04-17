@@ -2,10 +2,10 @@
 
 namespace App\ReservationManagement\Customers\infrastructure\persistence;
 
-use App\ReservationManagement\Customers\domain\exeptions\CustomerCreationException;
-use App\ReservationManagement\Customers\domain\exeptions\CustomerDeletionException;
-use App\ReservationManagement\Customers\domain\exeptions\CustomerNotFoundException;
-use App\ReservationManagement\Customers\domain\exeptions\CustomerUpdateException;
+use App\ReservationManagement\Customers\domain\exeptions\CustomersCreationException;
+use App\ReservationManagement\Customers\domain\exeptions\CustomersDeletionException;
+use App\ReservationManagement\Customers\domain\exeptions\CustomersNotFoundException;
+use App\ReservationManagement\Customers\domain\exeptions\CustomersUpdateException;
 use App\ReservationManagement\Customers\Domain\Model\Aggregates\Customers;
 
 use Illuminate\Support\Facades\Validator;
@@ -22,7 +22,7 @@ class CustomersRepository
         $customer = Customers::find($id);
 
         if (!$customer) {
-            throw new CustomerNotFoundException("Customer with ID {$id} not found");
+            throw new CustomersNotFoundException("Customer with ID {$id} not found");
         }
 
         return $customer;
@@ -33,13 +33,13 @@ class CustomersRepository
         $validator = Validator::make($data, (new Customers())->rules());
 
         if ($validator->fails()) {
-            throw new CustomerCreationException($validator->errors()->first());
+            throw new CustomersCreationException($validator->errors()->first());
         }
 
         try {
             return Customers::create($data);
         } catch (\Exception $e) {
-            throw new CustomerCreationException("Failed to create customer: " . $e->getMessage());
+            throw new CustomersCreationException("Failed to create customer: " . $e->getMessage());
         }
     }
 
@@ -48,20 +48,20 @@ class CustomersRepository
         $customer = Customers::find($id);
 
         if (!$customer) {
-            throw new CustomerNotFoundException("Customer with ID {$id} not found");
+            throw new CustomersNotFoundException("Customer with ID {$id} not found");
         }
 
         $validator = Validator::make($data, $customer->rules());
 
         if ($validator->fails()) {
-            throw new CustomerUpdateException($validator->errors()->first());
+            throw new CustomersUpdateException($validator->errors()->first());
         }
 
         try {
             $customer->update($data);
             return $customer;
         } catch (\Exception $e) {
-            throw new CustomerUpdateException("Failed to update customer: " . $e->getMessage());
+            throw new CustomersUpdateException("Failed to update customer: " . $e->getMessage());
         }
     }
 
@@ -70,13 +70,13 @@ class CustomersRepository
         $customer = Customers::find($id);
 
         if (!$customer) {
-            throw new CustomerNotFoundException("Customer with ID {$id} not found");
+            throw new CustomersNotFoundException("Customer with ID {$id} not found");
         }
 
         try {
             return $customer->delete();
         } catch (\Exception $e) {
-            throw new CustomerDeletionException("Failed to delete customer: " . $e->getMessage());
+            throw new CustomersDeletionException("Failed to delete customer: " . $e->getMessage());
         }
     }
 }

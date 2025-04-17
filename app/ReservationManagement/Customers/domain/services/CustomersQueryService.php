@@ -2,8 +2,8 @@
 
 namespace App\ReservationManagement\Customers\domain\services;
 
-use App\ReservationManagement\Customers\Domain\Model\Queries\GetAllCustomersQuery;
-use App\ReservationManagement\Customers\Domain\Model\Queries\GetAllCustomersByIdQuery;
+use App\ReservationManagement\Customers\domain\model\queries\GetAllCustomersByIdQuery;
+use App\ReservationManagement\Customers\domain\model\queries\GetAllCustomersQuery;
 
 interface CustomersQueryService
 {

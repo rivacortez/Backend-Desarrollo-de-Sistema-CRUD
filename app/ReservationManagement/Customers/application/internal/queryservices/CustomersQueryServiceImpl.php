@@ -2,9 +2,9 @@
 
 namespace App\ReservationManagement\Customers\application\internal\queryservices;
 
+use App\ReservationManagement\Customers\domain\model\queries\GetAllCustomersByIdQuery;
+use App\ReservationManagement\Customers\domain\model\queries\GetAllCustomersQuery;
 use App\ReservationManagement\Customers\Domain\Services\CustomersQueryService;
-use App\ReservationManagement\Customers\Domain\Model\Queries\GetAllCustomersQuery;
-use App\ReservationManagement\Customers\Domain\Model\Queries\GetAllCustomersByIdQuery;
 use App\ReservationManagement\Customers\Infrastructure\Persistence\CustomersRepository;
 
 

@@ -2,7 +2,7 @@
 
 namespace App\ReservationManagement\Customers\domain\exeptions;
 
-class CustomerNotFoundException extends CustomerException
+class CustomersNotFoundException extends CustomerException
 {
     protected $httpCode = 404;
 

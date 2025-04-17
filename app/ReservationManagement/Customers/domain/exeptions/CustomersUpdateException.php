@@ -2,7 +2,7 @@
 
 namespace App\ReservationManagement\Customers\domain\exeptions;
 
-class CustomerUpdateException extends CustomerException
+class CustomersUpdateException extends CustomerException
 {
     public function __construct($message = "Error updating customer")
     {

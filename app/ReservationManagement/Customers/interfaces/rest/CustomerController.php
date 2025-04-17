@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\ReservationManagement\Customers\Application\Internal\CommandServices\CustomersCommandServiceImpl;
 use App\ReservationManagement\Customers\Application\Internal\QueryServices\CustomersQueryServiceImpl;
 use App\ReservationManagement\Customers\Domain\Model\Commands\CustomerCommand;
-use App\ReservationManagement\Customers\Domain\Model\Queries\GetAllCustomersQuery;
-use App\ReservationManagement\Customers\Domain\Model\Queries\GetAllCustomersByIdQuery;
+use App\ReservationManagement\Customers\domain\model\queries\GetAllCustomersByIdQuery;
+use App\ReservationManagement\Customers\domain\model\queries\GetAllCustomersQuery;
 use App\ReservationManagement\Customers\Interfaces\Rest\Resources\CustomersResource;
 use Illuminate\Http\Request;
 
