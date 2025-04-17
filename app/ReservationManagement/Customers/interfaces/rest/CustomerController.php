@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ReservationManagement\Customers\Interfaces\Rest;
+namespace App\ReservationManagement\Customers\interfaces\rest;
 
 use App\Http\Controllers\Controller;
 use App\ReservationManagement\Customers\Application\Internal\CommandServices\CustomersCommandServiceImpl;

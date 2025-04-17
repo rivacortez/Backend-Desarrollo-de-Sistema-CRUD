@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ReservationManagement\Customers\Domain\Model\Commands;
+namespace App\ReservationManagement\Customers\domain\model\commands;
 
 class CustomerCommand
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ReservationManagement\Customers\Application\Internal\QueryServices;
+namespace App\ReservationManagement\Customers\application\internal\queryservices;
 
 use App\ReservationManagement\Customers\Domain\Services\CustomersQueryService;
 use App\ReservationManagement\Customers\Domain\Model\Queries\GetAllCustomersQuery;

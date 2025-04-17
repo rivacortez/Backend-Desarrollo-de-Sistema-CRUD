@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\ReservationManagement\Customers\Application\Internal\CommandServices;
+namespace App\ReservationManagement\Customers\application\internal\commandservices;
 
 use App\ReservationManagement\Customers\Domain\Services\CustomersCommandService;
 use App\ReservationManagement\Customers\Domain\Model\Commands\CustomerCommand;

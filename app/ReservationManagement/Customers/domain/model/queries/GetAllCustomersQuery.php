@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\ReservationManagement\Customers\Domain\Model\Queries;
+namespace App\ReservationManagement\Customers\domain\model\queries;
 
 class GetAllCustomersQuery
 {

@@ -1,6 +1,8 @@
 <?php
 
-namespace App\ReservationManagement\Customers\Domain\Exceptions;
+namespace App\ReservationManagement\Customers\domain\exeptions;
+
+use App\ReservationManagement\Customers\domain\exeptions;
 
 class CustomerDeletionException extends CustomerException
 {

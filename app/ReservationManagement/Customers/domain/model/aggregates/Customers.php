@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ReservationManagement\Customers\Domain\Model\Aggregates;
+namespace App\ReservationManagement\Customers\domain\model\aggregates;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

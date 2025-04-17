@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ReservationManagement\Customers\Domain\Exceptions;
+namespace App\ReservationManagement\Customers\domain\exeptions;
 
 use Exception;
 

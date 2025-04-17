@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ReservationManagement\Customers\Interfaces\Rest\Resources;
+namespace App\ReservationManagement\Customers\interfaces\rest\resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
