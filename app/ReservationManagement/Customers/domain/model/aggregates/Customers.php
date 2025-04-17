@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\ReservationManagement\Customers\Domain\Model\Aggregates;
 
 use Illuminate\Database\Eloquent\Model;
