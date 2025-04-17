@@ -4,6 +4,7 @@ namespace App\ReservationManagement\Tables\application\internal\commandservices;
 
 use App\ReservationManagement\Tables\Domain\Services\TablesCommandService;
 use App\ReservationManagement\Tables\Domain\Model\Commands\TablesCommand;
+use App\ReservationManagement\Tables\infrastructure\persistence\TablesRepository;
 use Illuminate\Support\Facades\Validator;
 
 class TablesCommandServiceImpl implements TablesCommandService

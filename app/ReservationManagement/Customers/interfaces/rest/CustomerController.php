@@ -3,12 +3,13 @@
 namespace App\ReservationManagement\Customers\interfaces\rest;
 
 use App\Http\Controllers\Controller;
-use App\ReservationManagement\Customers\Application\Internal\CommandServices\CustomersCommandServiceImpl;
-use App\ReservationManagement\Customers\Application\Internal\QueryServices\CustomersQueryServiceImpl;
-use App\ReservationManagement\Customers\Domain\Model\Commands\CustomerCommand;
+
+use App\ReservationManagement\Customers\application\internal\commandservices\CustomersCommandServiceImpl;
+use App\ReservationManagement\Customers\application\internal\queryservices\CustomersQueryServiceImpl;
+use App\ReservationManagement\Customers\domain\model\commands\CustomerCommand;
 use App\ReservationManagement\Customers\domain\model\queries\GetAllCustomersByIdQuery;
 use App\ReservationManagement\Customers\domain\model\queries\GetAllCustomersQuery;
-use App\ReservationManagement\Customers\Interfaces\Rest\Resources\CustomersResource;
+use App\ReservationManagement\Customers\interfaces\rest\resources\CustomersResource;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller

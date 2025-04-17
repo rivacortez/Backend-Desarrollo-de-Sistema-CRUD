@@ -2,15 +2,16 @@
 
 namespace App\ReservationManagement\Tables\interfaces\rest;
 
-use App\Http\Controllers\Controller;
-use App\ReservationManagement\Tables\Application\Internal\CommandServices\TablesCommandServiceImpl;
-use App\ReservationManagement\Tables\Application\Internal\QueryServices\TablesQueryServiceImpl;
-use App\ReservationManagement\Tables\Domain\Model\Commands\TablesCommand;
-use App\ReservationManagement\Tables\Domain\Model\Queries\GetAllTablesByIdQuery;
-use App\ReservationManagement\Tables\Domain\Model\Queries\GetAllTablesQuery;
-use App\ReservationManagement\Tables\Interfaces\Rest\Resources\TablesResource;
-use Illuminate\Http\Request;
 
+
+use App\ReservationManagement\Tables\application\internal\commandservices\TablesCommandServiceImpl;
+use App\ReservationManagement\Tables\application\internal\queryservices\TablesQueryServiceImpl;
+use App\ReservationManagement\Tables\domain\model\commands\TablesCommand;
+use App\ReservationManagement\Tables\domain\model\queries\GetAllTablesByIdQuery;
+use App\ReservationManagement\Tables\domain\model\queries\GetAllTablesQuery;
+use App\ReservationManagement\Tables\interfaces\rest\resources\TablesResource;
+use Illuminate\Routing\Controller;
+use Illuminate\Http\Request;
 class TablesController extends Controller
 {
     private $commandService;
