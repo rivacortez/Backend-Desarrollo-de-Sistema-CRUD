@@ -10,7 +10,6 @@ class TablesCommandServiceImpl implements TablesCommandService
 {
     private $repository;
 
-    //TODO: IMPLEMENT REPOSITORY
     public function __construct(TablesRepository $repository)
     {
         $this->repository = $repository;

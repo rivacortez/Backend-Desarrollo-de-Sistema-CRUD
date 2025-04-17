@@ -9,7 +9,6 @@ use App\ReservationManagement\Tables\Domain\Services\TablesQueryService;
 class TablesQueryServiceImpl implements TablesQueryService
 {
     private $repository;
-//TODO: add type hint for repository
     public function __construct(TablesRepository $repository)
     {
         $this->repository = $repository;
