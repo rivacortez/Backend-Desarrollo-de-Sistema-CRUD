@@ -8,7 +8,6 @@ use App\ReservationManagement\Customers\Domain\Model\Queries\GetAllCustomersById
 use App\ReservationManagement\Customers\Infrastructure\Persistence\CustomersRepository;
 
 
-//TODO:implement CustomerRepository
 
 class CustomersQueryServiceImpl implements CustomersQueryService
 {

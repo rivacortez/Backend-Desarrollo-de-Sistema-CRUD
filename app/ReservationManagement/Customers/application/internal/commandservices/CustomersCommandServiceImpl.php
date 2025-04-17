@@ -12,7 +12,6 @@ class CustomersCommandServiceImpl implements CustomersCommandService
 {
     private $repository;
 
-    //TODO:implement CustomerRepository
     public function __construct(CustomersRepository $repository)
     {
         $this->repository = $repository;
