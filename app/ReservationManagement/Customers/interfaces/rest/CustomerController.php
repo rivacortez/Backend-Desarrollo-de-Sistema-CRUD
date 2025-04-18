@@ -12,6 +12,13 @@ use App\ReservationManagement\Customers\domain\model\queries\GetAllCustomersQuer
 use App\ReservationManagement\Customers\interfaces\rest\resources\CustomersResource;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Info(
+ *     title="Restaurant Reservation API",
+ *     version="1.0.0",
+ *     description="API for managing restaurant reservations"
+ * )
+ */
 class CustomerController extends Controller
 {
     private $commandService;
@@ -25,18 +32,81 @@ class CustomerController extends Controller
         $this->queryService = $queryService;
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/customers",
+     *     summary="Get all customers",
+     *     tags={"Customers"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of all customers",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Customer")
+     *         )
+     *     )
+     * )
+     */
     public function index()
     {
         $customers = $this->queryService->execute(new GetAllCustomersQuery());
         return CustomersResource::collection($customers);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/customers/{id}",
+     *     summary="Get a customer by ID",
+     *     tags={"Customers"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the customer",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Customer details",
+     *         @OA\JsonContent(ref="#/components/schemas/Customer")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Customer not found"
+     *     )
+     * )
+     */
     public function show($id)
     {
         $customer = $this->queryService->executeById(new GetAllCustomersByIdQuery($id));
         return new CustomersResource($customer);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/customers",
+     *     summary="Create a new customer",
+     *     tags={"Customers"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="nombre", type="string", example="Juan Pérez"),
+     *             @OA\Property(property="correo", type="string", format="email", example="juan.perez@example.com"),
+     *             @OA\Property(property="telefono", type="string", example="555-123-4567"),
+     *             @OA\Property(property="direccion", type="string", example="Av. Insurgentes Sur 123, CDMX")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Customer created successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/Customer")
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
+     */
     public function store(Request $request)
     {
         $command = new CustomerCommand(
@@ -51,6 +121,42 @@ class CustomerController extends Controller
         return new CustomersResource($customer);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/customers/{id}",
+     *     summary="Update a customer",
+     *     tags={"Customers"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the customer to update",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="nombre", type="string", example="Juan Pérez"),
+     *             @OA\Property(property="correo", type="string", format="email", example="juan.perez@example.com"),
+     *             @OA\Property(property="telefono", type="string", example="555-123-4567"),
+     *             @OA\Property(property="direccion", type="string", example="Av. Insurgentes Sur 123, CDMX")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Customer updated successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/Customer")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Customer not found"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
+     */
     public function update(Request $request, $id)
     {
         $command = new CustomerCommand(
@@ -65,6 +171,28 @@ class CustomerController extends Controller
         return new CustomersResource($customer);
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/customers/{id}",
+     *     summary="Delete a customer",
+     *     tags={"Customers"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the customer to delete",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Customer deleted successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Customer not found"
+     *     )
+     * )
+     */
     public function destroy($id)
     {
         $this->commandService->delete($id);
