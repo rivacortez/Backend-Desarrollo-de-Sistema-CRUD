@@ -25,18 +25,24 @@
                 "tags": [
                     "Customers"
                 ],
-                "summary": "Get all customers",
-                "operationId": "4a3eaa79eb8ed63a7084b6e2c69c4b1e",
+                "summary": "List all customers",
+                "description": "Returns a collection of all customer records in the system",
+                "operationId": "listCustomers",
                 "responses": {
                     "200": {
-                        "description": "List of all customers",
+                        "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Customer"
-                                    }
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Customer"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -48,12 +54,20 @@
                     "Customers"
                 ],
                 "summary": "Create a new customer",
-                "operationId": "19f0f44c8d376351f98af50c827f9168",
+                "description": "Creates a new customer record in the system",
+                "operationId": "createCustomer",
                 "requestBody": {
+                    "description": "Customer data",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "nombre",
+                                    "correo",
+                                    "telefono",
+                                    "direccion"
+                                ],
                                 "properties": {
                                     "nombre": {
                                         "type": "string",
@@ -61,6 +75,7 @@
                                     },
                                     "correo": {
                                         "type": "string",
+                                        "format": "email",
                                         "example": "juan.perez@example.com"
                                     },
                                     "telefono": {
@@ -83,13 +98,39 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Customer"
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Customer"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
                     },
                     "422": {
-                        "description": "Validation error"
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "nombre": [
+                                                    "The nombre field is required."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -99,13 +140,14 @@
                 "tags": [
                     "Customers"
                 ],
-                "summary": "Get a customer by ID",
-                "operationId": "eb4260716829341d88bffd5d77c52c73",
+                "summary": "Get customer details",
+                "description": "Returns details for a specific customer by ID",
+                "operationId": "getCustomer",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID of the customer",
+                        "description": "ID of the customer to retrieve",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -114,11 +156,16 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Customer details",
+                        "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Customer"
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Customer"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -133,7 +180,8 @@
                     "Customers"
                 ],
                 "summary": "Update a customer",
-                "operationId": "d8f739047e264cb6a201ac6d6c7cb36a",
+                "description": "Updates an existing customer record",
+                "operationId": "updateCustomer",
                 "parameters": [
                     {
                         "name": "id",
@@ -146,7 +194,7 @@
                     }
                 ],
                 "requestBody": {
-                    "required": true,
+                    "description": "Customer data",
                     "content": {
                         "application/json": {
                             "schema": {
@@ -157,7 +205,8 @@
                                     },
                                     "correo": {
                                         "type": "string",
-                                        "example": "juan.perez.update@example.com"
+                                        "format": "email",
+                                        "example": "juan.updated@example.com"
                                     },
                                     "telefono": {
                                         "type": "string",
@@ -179,7 +228,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Customer"
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Customer"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -188,7 +242,28 @@
                         "description": "Customer not found"
                     },
                     "422": {
-                        "description": "Validation error"
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "correo": [
+                                                    "The email has already been taken."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -197,7 +272,8 @@
                     "Customers"
                 ],
                 "summary": "Delete a customer",
-                "operationId": "18ae4527e24f8dcdf3ba06d604560734",
+                "description": "Removes a customer record from the system",
+                "operationId": "deleteCustomer",
                 "parameters": [
                     {
                         "name": "id",
@@ -211,7 +287,20 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Customer deleted successfully"
+                        "description": "Customer deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Customer deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "404": {
                         "description": "Customer not found"
@@ -228,7 +317,7 @@
                 "operationId": "da6589397b0b417ba1d37aec5dea0f04",
                 "responses": {
                     "200": {
-                        "description": "List of all reservations",
+                        "description": "List of reservations",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -253,11 +342,18 @@
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "fecha",
+                                    "hora",
+                                    "numero_de_personas",
+                                    "comensal_id",
+                                    "mesa_id"
+                                ],
                                 "properties": {
                                     "fecha": {
                                         "type": "string",
                                         "format": "date",
-                                        "example": "2023-06-15"
+                                        "example": "2025-05-01"
                                     },
                                     "hora": {
                                         "type": "string",
@@ -299,18 +395,17 @@
                 }
             }
         },
-        "/api/reservations/{id}": {
+        "/api/reservations/{reservation}": {
             "get": {
                 "tags": [
                     "Reservations"
                 ],
                 "summary": "Get a reservation by ID",
-                "operationId": "019b472459b1dce69e54de66668985a9",
+                "operationId": "1d79a6c97817bfac526e1b8febd41202",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "reservation",
                         "in": "path",
-                        "description": "ID of the reservation",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -338,12 +433,11 @@
                     "Reservations"
                 ],
                 "summary": "Update a reservation",
-                "operationId": "6ae574cf78fbae4335dc39c0b00fe78b",
+                "operationId": "a0226df526e87aec7a9c3d3411573e2e",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "reservation",
                         "in": "path",
-                        "description": "ID of the reservation to update",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -359,7 +453,7 @@
                                     "fecha": {
                                         "type": "string",
                                         "format": "date",
-                                        "example": "2023-06-16"
+                                        "example": "2025-06-01"
                                     },
                                     "hora": {
                                         "type": "string",
@@ -408,12 +502,11 @@
                     "Reservations"
                 ],
                 "summary": "Delete a reservation",
-                "operationId": "f4d816f69444320e38d4168b5e69a4c8",
+                "operationId": "37e426e278a5de40c496e46c537a25ec",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "reservation",
                         "in": "path",
-                        "description": "ID of the reservation to delete",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -439,7 +532,7 @@
                 "operationId": "99272e10962b170fa754fc7b7e2ecdcf",
                 "responses": {
                     "200": {
-                        "description": "List of all tables",
+                        "description": "List of tables",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -464,6 +557,11 @@
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "numero_mesa",
+                                    "capacidad",
+                                    "ubicacion"
+                                ],
                                 "properties": {
                                     "numero_mesa": {
                                         "type": "string",
@@ -500,18 +598,17 @@
                 }
             }
         },
-        "/api/tables/{id}": {
+        "/api/tables/{table}": {
             "get": {
                 "tags": [
                     "Tables"
                 ],
                 "summary": "Get a table by ID",
-                "operationId": "f08976f163aecc9693e20a370e0c2f6f",
+                "operationId": "80ae7d868420d0a1fc8270b05c711da2",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "table",
                         "in": "path",
-                        "description": "ID of the table",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -539,12 +636,11 @@
                     "Tables"
                 ],
                 "summary": "Update a table",
-                "operationId": "fec720a6666eddbcdbfc0c63f1129487",
+                "operationId": "e8a96cbd349984ccd0b9aad361fa1dea",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "table",
                         "in": "path",
-                        "description": "ID of the table to update",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -599,12 +695,11 @@
                     "Tables"
                 ],
                 "summary": "Delete a table",
-                "operationId": "ddbf89c289224ea4bee9db5dd7718fb0",
+                "operationId": "693a414958de8f970e4ba396bdef58f1",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "table",
                         "in": "path",
-                        "description": "ID of the table to delete",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -873,16 +968,16 @@
     },
     "tags": [
         {
+            "name": "Customers",
+            "description": "API Endpoints for Customer Management"
+        },
+        {
             "name": "Reservations",
-            "description": "API Endpoints for Reservations"
+            "description": "API Endpoints for Reservation Management"
         },
         {
             "name": "Tables",
-            "description": "API Endpoints for Tables"
-        },
-        {
-            "name": "Customers",
-            "description": "Customers"
+            "description": "API Endpoints for Table Management"
         }
     ]
 }

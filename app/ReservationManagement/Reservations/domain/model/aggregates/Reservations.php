@@ -6,6 +6,7 @@ use App\ReservationManagement\Customers\domain\model\aggregates\Customers;
 use App\ReservationManagement\Tables\domain\model\aggregates\Tables;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Database\Factories\ReservationsFactory;
 
 /**
  * Reservations Aggregate Root Entity
@@ -56,6 +57,16 @@ class Reservations extends Model
      * @var array<string>
      */
     protected $fillable = ['fecha', 'hora', 'numero_de_personas', 'comensal_id', 'mesa_id'];
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return ReservationsFactory::new();
+    }
 
     /**
      * Get validation rules for reservation attributes

@@ -2,6 +2,7 @@
 
 namespace App\ReservationManagement\Customers\domain\model\aggregates;
 
+use Database\Factories\CustomersFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -66,5 +67,10 @@ class Customers extends Model
             'telefono' => 'nullable|string|max:20',
             'direccion' => 'nullable|string|max:255',
         ];
+    }
+
+    protected static function newFactory()
+    {
+        return CustomersFactory::new();
     }
 }

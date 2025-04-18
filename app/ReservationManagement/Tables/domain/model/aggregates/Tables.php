@@ -2,8 +2,10 @@
 
 namespace App\ReservationManagement\Tables\domain\model\aggregates;
 
+use Database\Factories\TablesFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Tables Aggregate Root Entity
@@ -72,5 +74,72 @@ class Tables extends Model
             'capacidad' => 'required|integer|min:1',
             'ubicacion' => 'nullable|string|max:255',
         ];
+    }
+
+    /**
+     * Create a test instance of the table with given attributes
+     *
+     * Helper method for unit testing that creates table instances with
+     * sensible defaults that can be overridden as needed.
+     *
+     * @param array $attributes Custom attributes to override defaults
+     * @return Tables A new instance of the table model
+     */
+    public static function createForTest(array $attributes = [])
+    {
+        $defaults = [
+            'numero_mesa' => 'T-' . rand(100, 999),
+            'capacidad' => 4,
+            'ubicacion' => 'Test Location'
+        ];
+
+        $table = new self(array_merge($defaults, $attributes));
+
+        if (!isset($attributes['id'])) {
+            // Simulate an ID for the instance
+            $table->id = rand(1, 1000);
+        }
+
+        return $table;
+    }
+
+    /**
+     * Validate the current model instance against its rules
+     *
+     * Useful for unit testing validation rules without database interaction.
+     *
+     * @return array Validation errors if any, empty array if validation passes
+     */
+    public function validate()
+    {
+        $validator = Validator::make(
+            $this->attributesToArray(),
+            $this->rules()
+        );
+
+        return $validator->errors()->toArray();
+    }
+
+    /**
+     * Check if the table can accommodate the given party size
+     *
+     * Business logic method useful for testing reservation constraints.
+     *
+     * @param int $partySize The number of people to seat
+     * @return bool True if the table has sufficient capacity
+     */
+    public function canAccommodate(int $partySize): bool
+    {
+        return $this->capacidad >= $partySize;
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return TablesFactory::new();
     }
 }

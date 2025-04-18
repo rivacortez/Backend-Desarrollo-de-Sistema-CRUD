@@ -6,7 +6,9 @@ use App\ReservationManagement\Customers\domain\exeptions;
 
 class ReservationDeletionException extends ReservationsException
 {
-    public function __construct($message = "Error deleting customer")
+    protected $httpCode = 500;
+
+    public function __construct($message = "Error deleting reservation")
     {
         parent::__construct($message);
     }
