@@ -12,13 +12,54 @@ use App\ReservationManagement\Tables\interfaces\rest\resources\TablesResource;
 use Illuminate\Http\Request;
 
 /**
+ * Tables REST Controller
+ *
+ * This controller implements the REST interface for the Tables bounded context,
+ * serving as the primary entry point for table management operations through the API.
+ * It follows CQRS (Command Query Responsibility Segregation) principles by utilizing separate
+ * command and query services for write and read operations respectively.
+ *
+ * As part of the Hexagonal Architecture, this controller belongs to the interface layer
+ * and translates HTTP requests into domain operations, then transforms domain responses
+ * back into HTTP responses using resource classes.
+ *
+ * The controller supports standard CRUD operations:
+ * - Listing all tables
+ * - Retrieving a specific table by ID
+ * - Creating new tables
+ * - Updating existing tables
+ * - Deleting tables
+ *
+ * Each endpoint is documented with OpenAPI annotations to facilitate API discovery and testing.
+ *
  * @OA\Tag(name="Tables", description="API Endpoints for Tables")
  */
 class TablesController extends Controller
 {
+    /**
+     * Command service for handling write operations on tables
+     *
+     * @var TablesCommandServiceImpl
+     */
     private $commandService;
+
+    /**
+     * Query service for handling read operations on tables
+     *
+     * @var TablesQueryServiceImpl
+     */
     private $queryService;
 
+    /**
+     * Constructor with dependency injection for required services
+     *
+     * Initializes the controller with its dependencies following the Dependency Inversion Principle.
+     * Services are injected through Laravel's service container, decoupling the controller
+     * from concrete implementations.
+     *
+     * @param TablesCommandServiceImpl $commandService Service for handling write operations
+     * @param TablesQueryServiceImpl $queryService Service for handling read operations
+     */
     public function __construct(
         TablesCommandServiceImpl $commandService,
         TablesQueryServiceImpl $queryService
@@ -28,6 +69,14 @@ class TablesController extends Controller
     }
 
     /**
+     * Retrieve all tables from the system
+     *
+     * Creates a query object and delegates to the query service to fetch
+     * all table records. The result is transformed into a standardized
+     * API response using the resource collection transformer.
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection Collection of table resources
+     *
      * @OA\Get(
      *     path="/api/tables",
      *     summary="Get all tables",
@@ -49,6 +98,16 @@ class TablesController extends Controller
     }
 
     /**
+     * Retrieve a specific table by its unique identifier
+     *
+     * Creates a query object with the provided ID and delegates to the query service
+     * to fetch the specific table. The result is transformed into a standardized
+     * API response using the resource transformer.
+     *
+     * @param int $id The unique identifier of the table to retrieve
+     * @return TablesResource The table resource
+     * @throws \App\ReservationManagement\Tables\domain\exeptions\TableNotFoundException When no table exists with the provided ID
+     *
      * @OA\Get(
      *     path="/api/tables/{id}",
      *     summary="Get a table by ID",
@@ -78,6 +137,16 @@ class TablesController extends Controller
     }
 
     /**
+     * Create a new table in the system
+     *
+     * Extracts table data from the request, creates a command object,
+     * and delegates to the command service for processing. The newly created
+     * table is then transformed into a standardized API response.
+     *
+     * @param Request $request The HTTP request containing table data
+     * @return TablesResource The newly created table resource
+     * @throws \App\ReservationManagement\Tables\domain\exeptions\TableCreationException When validation fails or errors occur during creation
+     *
      * @OA\Post(
      *     path="/api/tables",
      *     summary="Create a new table",
@@ -115,6 +184,18 @@ class TablesController extends Controller
     }
 
     /**
+     * Update an existing table in the system
+     *
+     * Extracts table data from the request, creates a command object with the
+     * specified ID, and delegates to the command service for processing. The updated
+     * table is then transformed into a standardized API response.
+     *
+     * @param Request $request The HTTP request containing updated table data
+     * @param int $id The unique identifier of the table to update
+     * @return TablesResource The updated table resource
+     * @throws \App\ReservationManagement\Tables\domain\exeptions\TableNotFoundException When the specified table doesn't exist
+     * @throws \App\ReservationManagement\Tables\domain\exeptions\TableUpdateException When validation fails or errors occur during update
+     *
      * @OA\Put(
      *     path="/api/tables/{id}",
      *     summary="Update a table",
@@ -163,6 +244,16 @@ class TablesController extends Controller
     }
 
     /**
+     * Delete a table from the system
+     *
+     * Delegates to the command service to remove the specified table.
+     * Returns a success message upon completion.
+     *
+     * @param int $id The unique identifier of the table to delete
+     * @return \Illuminate\Http\JsonResponse Response with success message
+     * @throws \App\ReservationManagement\Tables\domain\exeptions\TableNotFoundException When the specified table doesn't exist
+     * @throws \App\ReservationManagement\Tables\domain\exeptions\TableDeletionException When database errors prevent deletion
+     *
      * @OA\Delete(
      *     path="/api/tables/{id}",
      *     summary="Delete a table",

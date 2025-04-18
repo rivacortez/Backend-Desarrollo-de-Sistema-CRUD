@@ -10,15 +10,42 @@ use App\ReservationManagement\Customers\domain\model\queries\GetAllCustomersById
 use App\ReservationManagement\Customers\domain\model\queries\GetAllCustomersQuery;
 use App\ReservationManagement\Customers\interfaces\rest\resources\CustomersResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 /**
- * @OA\Tag(name="Commensals", description="API Endpoints for Commensals")
+ * Customer REST API Controller
+ *
+ * This controller implements the REST API endpoints for customer management following
+ * CQRS (Command Query Responsibility Segregation) pattern. It provides operations for
+ * creating, reading, updating, and deleting customer records within the restaurant
+ * reservation system.
+ *
+ * @package App\ReservationManagement\Customers\interfaces\rest
+ * @OA\Tag(name="Customers", description="API Endpoints for Customer Management")
  */
 class CustomerController extends Controller
 {
+    /**
+     * Command service for handling customer write operations
+     *
+     * @var CustomersCommandServiceImpl
+     */
     private $commandService;
+
+    /**
+     * Query service for handling customer read operations
+     *
+     * @var CustomersQueryServiceImpl
+     */
     private $queryService;
 
+    /**
+     * CustomerController constructor
+     *
+     * @param CustomersCommandServiceImpl $commandService Service for customer write operations
+     * @param CustomersQueryServiceImpl $queryService Service for customer read operations
+     */
     public function __construct(
         CustomersCommandServiceImpl $commandService,
         CustomersQueryServiceImpl $queryService
@@ -28,6 +55,13 @@ class CustomerController extends Controller
     }
 
     /**
+     * Retrieve all customers
+     *
+     * Returns a paginated collection of all customer records in the system.
+     * Results are transformed through the CustomersResource for consistent API response format.
+     *
+     * @return AnonymousResourceCollection Collection of customer resources
+     *
      * @OA\Get(
      *     path="/api/customers",
      *     summary="Get all customers",
@@ -49,6 +83,14 @@ class CustomerController extends Controller
     }
 
     /**
+     * Retrieve a specific customer by ID
+     *
+     * Finds and returns a single customer record by its unique identifier.
+     * Throws a CustomerNotFoundException (404) if the specified customer doesn't exist.
+     *
+     * @param int $id The unique identifier of the customer
+     * @return CustomersResource The customer resource
+     *
      * @OA\Get(
      *     path="/api/customers/{id}",
      *     summary="Get a customer by ID",
@@ -78,6 +120,15 @@ class CustomerController extends Controller
     }
 
     /**
+     * Create a new customer
+     *
+     * Processes the incoming request data to create a new customer record.
+     * Validates input through command handler validation rules.
+     * Returns 422 Unprocessable Entity response on validation failure.
+     *
+     * @param Request $request The HTTP request containing customer data
+     * @return CustomersResource The newly created customer resource
+     *
      * @OA\Post(
      *     path="/api/customers",
      *     summary="Create a new customer",
@@ -117,6 +168,16 @@ class CustomerController extends Controller
     }
 
     /**
+     * Update an existing customer
+     *
+     * Updates a specific customer record with the provided data.
+     * Validates input through command handler validation rules.
+     * Throws a CustomerNotFoundException (404) if the specified customer doesn't exist.
+     *
+     * @param Request $request The HTTP request containing updated customer data
+     * @param int $id The unique identifier of the customer to update
+     * @return CustomersResource The updated customer resource
+     *
      * @OA\Put(
      *     path="/api/customers/{id}",
      *     summary="Update a customer",
@@ -167,6 +228,15 @@ class CustomerController extends Controller
     }
 
     /**
+     * Delete a customer
+     *
+     * Permanently removes a customer record from the system.
+     * Throws a CustomerNotFoundException (404) if the specified customer doesn't exist.
+     * Returns a confirmation message upon successful deletion.
+     *
+     * @param int $id The unique identifier of the customer to delete
+     * @return JsonResponse Response with success message
+     *
      * @OA\Delete(
      *     path="/api/customers/{id}",
      *     summary="Delete a customer",
