@@ -47,7 +47,15 @@ Este proyecto implementa un sistema robusto y eficiente para la gestión de rese
 
 ---
 
-## 🧩 Entidades Principales
+# ✅ Beneficios del Patrón CQRS y Arquitectura Hexagonal
+* Separación de Responsabilidades: Clara distinción entre operaciones de lectura y escritura.
+* Escalabilidad: Optimización independiente para operaciones de lectura y escritura.
+* Testabilidad: Facilita la creación de pruebas unitarias y de integración.
+* Mantenibilidad: Código más organizado y desacoplado.
+* Evolución: Facilita cambios en la infraestructura sin afectar la lógica de negocio.
+
+
+## 🧩 Entidades 
 
 ### 🍽️ Mesas (Tables)
 
@@ -94,6 +102,73 @@ ReservationManagement/
 ```
 /api/documentation – Interfaz interactiva de Swagger UI
 ```
+# 🧪 Pruebas Unitarias
+
+Este proyecto incluye una **suite completa de pruebas unitarias** diseñada para garantizar la **calidad**, **estabilidad** y **correctitud** de cada capa de la aplicación.  
+Las pruebas están organizadas conforme a la **Arquitectura Hexagonal** y siguen los principios de **Domain-Driven Design (DDD)**.
+
+---
+
+## 📦 Categorías de Pruebas
+
+### ✅ Pruebas de Dominio
+- Verifican las **reglas de negocio**, validaciones y comportamiento de agregados y objetos de valor.
+- Ejemplo: Asegurar que no se pueda crear una reservación sin una mesa o cliente válido.
+
+### 🧩 Pruebas de Repositorio
+- Validan la correcta **persistencia** y **recuperación** de entidades del dominio mediante interfaces de repositorio.
+- Se centran en la interacción con la base de datos usando Eloquent u otros drivers personalizados.
+
+### ⚙️ Pruebas de Servicios de Aplicación
+- Evalúan los **comandos** (operaciones de escritura) y **consultas** (operaciones de lectura).
+- Verifican la lógica de orquestación y el uso correcto de servicios del dominio.
+
+### 🌐 Pruebas de API (Feature Tests)
+- Simulan peticiones HTTP y prueban los endpoints REST.
+- Evalúan todo el ciclo de vida de una petición: rutas, validación, controladores y respuestas.
+
+#### 🧪 API de Clientes
+- ✅ Obtener todos los clientes
+- ✅ Obtener cliente por ID
+- ✅ Crear cliente con datos válidos
+- ✅ Actualizar cliente existente
+- ✅ Eliminar cliente existente
+- 🔴 Manejo de ID inexistente (404)
+- 🔴 Validación de datos en creación/actualización
+
+#### 🧪 API de Reservaciones
+- ✅ Obtener todas las reservaciones
+- ✅ Obtener reservación por ID
+- ✅ Crear reservación con datos válidos
+- ✅ Actualizar reservación existente
+- ✅ Eliminar reservación
+- 🔴 Manejo de ID inválidos (404)
+- 🔴 Validación de campos requeridos y llaves foráneas
+
+#### 🧪 API de Mesas
+- ✅ Listar todas las mesas
+- ✅ Ver una mesa específica
+- ✅ Registrar mesa con datos válidos
+- ✅ Actualizar y eliminar mesa
+- 🔴 Manejo de mesa inexistente (404)
+- 🔴 Validación de datos incompletos
+
+### 🚨 Pruebas de Manejo de Excepciones
+- Aseguran que el sistema maneja correctamente:
+    - Excepciones de dominio (reservas, clientes, mesas)
+    - Errores de validación
+    - Recursos no encontrados
+    - Errores inesperados del sistema
+
+---
+
+## ▶️ Cómo Ejecutar las Pruebas
+
+Para ejecutar **todas las pruebas**:
+
+```bash
+   php artisan test
+```
 
 ## ⚙️ Instalación y Configuración
 
@@ -123,9 +198,3 @@ php artisan migrate
 php artisan serve
 ```
 
-# ✅ Beneficios del Patrón CQRS y Arquitectura Hexagonal
-* Separación de Responsabilidades: Clara distinción entre operaciones de lectura y escritura.
-* Escalabilidad: Optimización independiente para operaciones de lectura y escritura.
-* Testabilidad: Facilita la creación de pruebas unitarias y de integración.
-* Mantenibilidad: Código más organizado y desacoplado.
-* Evolución: Facilita cambios en la infraestructura sin afectar la lógica de negocio.
