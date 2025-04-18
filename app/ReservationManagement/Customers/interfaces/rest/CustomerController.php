@@ -3,7 +3,6 @@
 namespace App\ReservationManagement\Customers\interfaces\rest;
 
 use App\Http\Controllers\Controller;
-
 use App\ReservationManagement\Customers\application\internal\commandservices\CustomersCommandServiceImpl;
 use App\ReservationManagement\Customers\application\internal\queryservices\CustomersQueryServiceImpl;
 use App\ReservationManagement\Customers\domain\model\commands\CustomerCommand;
@@ -13,11 +12,7 @@ use App\ReservationManagement\Customers\interfaces\rest\resources\CustomersResou
 use Illuminate\Http\Request;
 
 /**
- * @OA\Info(
- *     title="Restaurant Reservation API",
- *     version="1.0.0",
- *     description="API for managing restaurant reservations"
- * )
+ * @OA\Tag(name="Commensals", description="API Endpoints for Commensals")
  */
 class CustomerController extends Controller
 {
@@ -91,7 +86,7 @@ class CustomerController extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *             @OA\Property(property="nombre", type="string", example="Juan Pérez"),
-     *             @OA\Property(property="correo", type="string", format="email", example="juan.perez@example.com"),
+     *             @OA\Property(property="correo", type="string", example="juan.perez@example.com"),
      *             @OA\Property(property="telefono", type="string", example="555-123-4567"),
      *             @OA\Property(property="direccion", type="string", example="Av. Insurgentes Sur 123, CDMX")
      *         )
@@ -136,10 +131,10 @@ class CustomerController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="nombre", type="string", example="Juan Pérez"),
-     *             @OA\Property(property="correo", type="string", format="email", example="juan.perez@example.com"),
-     *             @OA\Property(property="telefono", type="string", example="555-123-4567"),
-     *             @OA\Property(property="direccion", type="string", example="Av. Insurgentes Sur 123, CDMX")
+     *             @OA\Property(property="nombre", type="string", example="Juan Pérez Actualizado"),
+     *             @OA\Property(property="correo", type="string", example="juan.perez.update@example.com"),
+     *             @OA\Property(property="telefono", type="string", example="555-987-6543"),
+     *             @OA\Property(property="direccion", type="string", example="Nueva Dirección 456, CDMX")
      *         )
      *     ),
      *     @OA\Response(

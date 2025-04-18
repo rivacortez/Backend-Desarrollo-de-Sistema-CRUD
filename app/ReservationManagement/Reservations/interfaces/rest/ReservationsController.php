@@ -12,11 +12,7 @@ use App\ReservationManagement\Reservations\interfaces\rest\resources\Reservation
 use Illuminate\Http\Request;
 
 /**
- * @OA\Info(
- *     title="Restaurant Reservation API",
- *     version="1.0.0",
- *     description="API for managing restaurant reservations"
- * )
+ * @OA\Tag(name="Reservations", description="API Endpoints for Reservations")
  */
 class ReservationsController extends Controller
 {

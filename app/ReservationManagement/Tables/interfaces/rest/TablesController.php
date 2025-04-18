@@ -2,7 +2,6 @@
 
 namespace App\ReservationManagement\Tables\interfaces\rest;
 
-use App\Http\Controllers\Controller;
 use App\ReservationManagement\Tables\application\internal\commandservices\TablesCommandServiceImpl;
 use App\ReservationManagement\Tables\application\internal\queryservices\TablesQueryServiceImpl;
 use App\ReservationManagement\Tables\domain\model\commands\TablesCommand;
@@ -10,13 +9,10 @@ use App\ReservationManagement\Tables\domain\model\queries\GetAllTablesByIdQuery;
 use App\ReservationManagement\Tables\domain\model\queries\GetAllTablesQuery;
 use App\ReservationManagement\Tables\interfaces\rest\resources\TablesResource;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 /**
- * @OA\Info(
- *     title="Restaurant Tables API",
- *     version="1.0.0",
- *     description="API for managing restaurant tables"
- * )
+ * @OA\Tag(name="Tables", description="API Endpoints for Tables")
  */
 class TablesController extends Controller
 {
