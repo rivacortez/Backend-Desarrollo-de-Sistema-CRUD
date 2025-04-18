@@ -2,6 +2,7 @@
 
 namespace App\ReservationManagement\Tables\interfaces\rest;
 
+use App\Http\Controllers\Controller;
 use App\ReservationManagement\Tables\application\internal\commandservices\TablesCommandServiceImpl;
 use App\ReservationManagement\Tables\application\internal\queryservices\TablesQueryServiceImpl;
 use App\ReservationManagement\Tables\domain\model\commands\TablesCommand;
@@ -9,7 +10,6 @@ use App\ReservationManagement\Tables\domain\model\queries\GetAllTablesByIdQuery;
 use App\ReservationManagement\Tables\domain\model\queries\GetAllTablesQuery;
 use App\ReservationManagement\Tables\interfaces\rest\resources\TablesResource;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 
 /**
  * @OA\Tag(name="Tables", description="API Endpoints for Tables")
@@ -131,7 +131,7 @@ class TablesController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="numero_mesa", type="string", example="A-14"),
      *             @OA\Property(property="capacidad", type="integer", example=6),
-     *             @OA\Property(property="ubicacion", type="string", example="Terraza Sur")
+     *             @OA\Property(property="ubicacion", type="string", example="Terraza Este")
      *         )
      *     ),
      *     @OA\Response(
