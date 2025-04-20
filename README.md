@@ -314,12 +314,22 @@ DB_PASSWORD=root //cambia tu password local
 ```bash
 docker-compose up -d --build
 ```
+```bash
+docker-compose run --rm app composer install
+```
+```bash
+docker-compose run --rm app composer install
+```
 Esto levantará los contenedores:
 
 * php-app (Laravel)
 
 * mysql-db (Base de datos)
 
+###
+```bash
+docker-compose run --rm app composer install
+```
 
 ### 4. Acceder al contenedor de Laravel y  Ejecutar migraciones desde el contenedor
 ```bash
