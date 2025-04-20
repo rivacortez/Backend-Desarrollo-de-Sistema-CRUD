@@ -38,6 +38,10 @@ DB_PASSWORD=root //cambia tu password local
  ### ejemplo
 ![configuracion](documentation/images/dblocal.jpeg)
 
+### !No olvides comentar la configuracion de docker si estas levantando el proyecto local
+
+ ### ejemplo
+![dockercomment](documentation/images/dockercomment.jpeg)
 ### 4. Crear base de datos
 Asegúrate de tener un servidor MySQL corriendo localmente y crea la base de datos:
 ```bash
@@ -85,6 +89,11 @@ DB_USERNAME=root //cambia tu username local
 DB_PASSWORD=root //cambia tu password local
 ```
 ![Evidencia del docker](documentation/images/dockerconfig.jpeg)
+
+### !No olvides comentar la configuracion local si estas levantando el proyecto con docker
+
+ ### ejemplo
+![localcomment](documentation/images/localcommet.jpeg)
 
 ### 3. Construir y levantar los contenedores
 ```bash
