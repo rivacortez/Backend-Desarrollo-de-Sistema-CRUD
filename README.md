@@ -21,13 +21,13 @@ Este proyecto implementa un sistema robusto y eficiente para la gestión de rese
 
 ## 🧰 Tecnologías Utilizadas
 
-| Tecnología     | Logo                                                                                                       |
-|----------------|------------------------------------------------------------------------------------------------------------|
-| Laravel 10     | <img src="https://laravel.com/img/logotype.min.svg" alt="Laravel" height="70px">                           |
-| PHP ≥ 8.1      | <img src="https://www.php.net/images/logos/new-php-logo.svg" alt="PHP" height="150px">                     |
-| MySQL          | <img src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" alt="MySQL" height="150px">           |
-| Docker         | <img src="https://www.hasselpunk.com/img/blog/ExponiendoFuncionesDeREnLaNube-Parte_2/docker_logo.png" alt="Docker" height="150px"> |
-| OpenAPI/Swagger| <img src="https://cdn.worldvectorlogo.com/logos/openapi-1.svg" alt="OpenAPI" height="200px">               |
+| Tecnología      | Logo                                                                                                       |
+|-----------------|------------------------------------------------------------------------------------------------------------|
+| Laravel 12.9.2  | <img src="https://laravel.com/img/logotype.min.svg" alt="Laravel" height="70px">                           |
+| PHP ≥ 8.4       | <img src="https://www.php.net/images/logos/new-php-logo.svg" alt="PHP" height="150px">                     |
+| MySQL           | <img src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" alt="MySQL" height="150px">           |
+| Docker          | <img src="https://www.hasselpunk.com/img/blog/ExponiendoFuncionesDeREnLaNube-Parte_2/docker_logo.png" alt="Docker" height="150px"> |
+| OpenAPI/Swagger | <img src="https://cdn.worldvectorlogo.com/logos/openapi-1.svg" alt="OpenAPI" height="200px">               |
 
 ---
 
@@ -162,39 +162,168 @@ Las pruebas están organizadas conforme a la **Arquitectura Hexagonal** y siguen
 
 ---
 
-## ▶️ Cómo Ejecutar las Pruebas
+## 🐳 Dockerización del Proyecto
 
-Para ejecutar **todas las pruebas**:
+Este sistema ha sido **dockerizado completamente**, separando los entornos del backend (Laravel + PHP) y la base de datos (MySQL) en **contenedores independientes**, facilitando el despliegue, la escalabilidad y el mantenimiento del proyecto.
 
-```bash
-   php artisan test
+---
+
+### 📦 Estructura de Contenedores
+
+| Servicio   | Imagen Base           | Puerto Expuesto | Función                                   |
+|------------|-----------------------|------------------|--------------------------------------------|
+| php-app    | php:8.4-fpm-alpine    | 8000             | Contenedor principal que ejecuta Laravel  |
+| mysql-db   | mysql:8.0             | 3307             | Contenedor de base de datos MySQL         |
+
+---
+
+### ⚙️ Archivo `docker-compose.yml`
+
+```yaml
+version: '3.8'
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: php-app
+        volumes:
+            - ./:/var/www
+        working_dir: /var/www
+        ports:
+            - "8000:8000"
+        networks:
+            - app-network
+        depends_on:
+            - db
+        environment:
+            DB_CONNECTION: mysql
+            DB_HOST: db
+            DB_PORT: 3306
+            DB_DATABASE: restaurant_db
+            DB_USERNAME: root
+            DB_PASSWORD: root
+
+    db:
+        image: mysql:8.0
+        container_name: mysql-db
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: restaurant_db
+            MYSQL_ROOT_PASSWORD: root
+        volumes:
+            - dbdata:/var/lib/mysql
+        ports:
+            - "3307:3306"
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    dbdata:
+
 ```
+
 
 ## ⚙️ Instalación y Configuración
 
+Puedes ejecutar este proyecto de dos formas: instalación local tradicional o usando Docker.
+
+---
+
+## 🖥️ Instalación Local (Sin Docker)
+
 ### 1. Clonar el repositorio
-```
+```bash
 git clone https://github.com/rivacortez/Backend-Desarrollo-de-Sistema-CRUD.git
 ```
-### 2. Instalar dependencias
+```bash
+cd Backend-Desarrollo-de-Sistema-CRUD
 ```
+### 2. Instalar dependencias
+
+```bash    
 composer install
 ```
 ### 3. Configurar variables de entorno
-Copiar el archivo .env.example a .env y configurar la conexión a la base de datos.
-
-### 4. Generar clave de aplicación
+Edita el archivo .env y ajusta los valores de la base de datos:
+```bash  
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=restaurant_db
+DB_USERNAME=root //cambia tu usuario local
+DB_PASSWORD=root //cambia tu password local
 ```
+
+### 4. Crear base de datos
+Asegúrate de tener un servidor MySQL corriendo localmente y crea la base de datos:
+```bash
+CREATE DATABASE restaurant_db;
+```
+### 5. Generar clave de aplicación
+```bash
 php artisan key:generate
 ```
-### 5. Ejecutar migraciones
-
-```
+### 6. Migrar base de datos
+```bash
 php artisan migrate
 ```
-
-### 6. Iniciar servidor
+### 7. Cargar datos de prueba (opcional)
+```bash
+php artisan db:seed
 ```
+### 8. Iniciar servidor
+```bash
 php artisan serve
 ```
 
+### 9. Acceder a la API documentada con swagger
+```bash
+http://127.0.0.1:8000/api/documentation
+```
+
+
+# 🐳 Instalación con Docker
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/rivacortez/Backend-Desarrollo-de-Sistema-CRUD.git
+```
+```bash
+cd Backend-Desarrollo-de-Sistema-CRUD
+```
+### 2. Configura la conexión a MySQL en .env para que se conecte al contenedor db:
+
+```bash
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=restaurant_db
+DB_USERNAME=root //cambia tu username local
+DB_PASSWORD=root //cambia tu password local
+```
+
+### 3. Construir y levantar los contenedores
+```bash
+docker-compose up -d --build
+```
+Esto levantará los contenedores:
+
+* php-app (Laravel)
+
+* mysql-db (Base de datos)
+
+
+### 4. Acceder al contenedor de Laravel y  Ejecutar migraciones desde el contenedor
+```bash
+docker-compose exec app php artisan migrate
+```
+
+### url de la API documentada con swagger
+```bash
+http://127.0.0.1:8000/api/documentation
+```
