@@ -302,7 +302,7 @@ Este sistema ha sido **dockerizado completamente**, separando los entornos del b
 | Servicio   | Imagen Base           | Puerto Expuesto | Función                                   |
 |------------|-----------------------|------------------|--------------------------------------------|
 | php-app    | php:8.4-fpm-alpine    | 8000             | Contenedor principal que ejecuta Laravel  |
-| mysql-db   | mysql:8.0             | 3307             | Contenedor de base de datos MySQL         |
+| mysql-db   | mysql:8.0             | 3306             | Contenedor de base de datos MySQL         |
 
 ---
 
