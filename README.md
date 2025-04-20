@@ -103,6 +103,9 @@ ReservationManagement/
 /api/documentation – Interfaz interactiva de Swagger UI
 ```
 # 🧪 Pruebas Unitarias
+``` bash
+php artisan test
+```
 
 Este proyecto incluye una **suite completa de pruebas unitarias** diseñada para garantizar la **calidad**, **estabilidad** y **correctitud** de cada capa de la aplicación.  
 Las pruebas están organizadas conforme a la **Arquitectura Hexagonal** y siguen los principios de **Domain-Driven Design (DDD)**.
@@ -327,3 +330,10 @@ docker-compose exec app php artisan migrate
 ```bash
 http://127.0.0.1:8000/api/documentation
 ```
+## 🌐 API
+
+La aplicación expone una API RESTful documentada con Swagger (OpenAPI), permitiendo probar los endpoints de manera interactiva y facilitar la integración con otros sistemas.
+
+### 📸 Evidencia de la API
+
+![Evidencia de la API](documentation/images/api_evidence.jpeg)
