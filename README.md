@@ -78,6 +78,8 @@ git clone https://github.com/rivacortez/Backend-Desarrollo-de-Sistema-CRUD.git
 ```bash
 cd Backend-Desarrollo-de-Sistema-CRUD
 ```
+### !No olvidar abrir docker desktop o levantar docker ¡
+
 ### 2. Configura la conexión a MySQL en .env para que se conecte al contenedor db, quitale al .env.example el ".example":
 
 ```bash
