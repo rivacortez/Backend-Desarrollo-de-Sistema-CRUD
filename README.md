@@ -3,6 +3,118 @@
 [![PHP Version](https://img.shields.io/badge/PHP-8.4-blue.svg?style=flat-square)](https://www.php.net/)
 [![Laravel Version](https://img.shields.io/badge/Laravel-12.9.2-red.svg?style=flat-square)](https://laravel.com/)
 
+
+
+## ⚙️ Instalación y Configuración
+
+Puedes ejecutar este proyecto de dos formas: instalación local tradicional o usando Docker.
+
+---
+
+## 🖥️ Instalación Local (Sin Docker)
+
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/rivacortez/Backend-Desarrollo-de-Sistema-CRUD.git
+```
+```bash
+cd Backend-Desarrollo-de-Sistema-CRUD
+```
+### 2. Instalar dependencias
+
+```bash    
+composer install
+```
+### 3. Configurar variables de entorno
+Edita el archivo .env y ajusta los valores de la base de datos:
+```bash  
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=restaurant_db
+DB_USERNAME=root //cambia tu usuario local
+DB_PASSWORD=root //cambia tu password local
+```
+ ### ejemplo
+![configuracion](documentation/images/dblocal.jpeg)
+
+### 4. Crear base de datos
+Asegúrate de tener un servidor MySQL corriendo localmente y crea la base de datos:
+```bash
+CREATE DATABASE restaurant_db;
+```
+### 5. Generar clave de aplicación
+```bash
+php artisan key:generate
+```
+### 6. Migrar base de datos
+```bash
+php artisan migrate
+```
+### 7. Cargar datos de prueba (opcional)
+```bash
+php artisan db:seed
+```
+### 8. Iniciar servidor
+```bash
+php artisan serve
+```
+
+### 9. Acceder a la API documentada con swagger
+```bash
+http://127.0.0.1:8000/api/documentation
+```
+
+
+# 🐳 Instalación con Docker
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/rivacortez/Backend-Desarrollo-de-Sistema-CRUD.git
+```
+```bash
+cd Backend-Desarrollo-de-Sistema-CRUD
+```
+### 2. Configura la conexión a MySQL en .env para que se conecte al contenedor db, quitale al .env.example el ".example":
+
+```bash
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=restaurant_db
+DB_USERNAME=root //cambia tu username local
+DB_PASSWORD=root //cambia tu password local
+```
+![Evidencia del docker](documentation/images/dockerconfig.jpeg)
+
+### 3. Construir y levantar los contenedores
+```bash
+docker-compose up -d --build
+```
+```bash
+docker-compose run --rm app composer install
+```
+```bash
+docker-compose up -d
+```
+Esto levantará los contenedores:
+
+* php-app (Laravel)
+
+* mysql-db (Base de datos)
+
+
+
+### 4. Acceder al contenedor de Laravel y  Ejecutar migraciones desde el contenedor
+```bash
+docker-compose exec app php artisan migrate
+```
+
+### url de la API documentada con swagger
+```bash
+http://127.0.0.1:8000/api/documentation
+```
+
+
 ## 📝 Descripción General
 
 Este proyecto implementa un sistema robusto y eficiente para la gestión de reservaciones en restaurantes. Permite la administración de mesas, registro de comensales y gestión de reservaciones. La aplicación sigue una **arquitectura hexagonal** y emplea el patrón **CQRS** (Command Query Responsibility Segregation).
@@ -185,163 +297,7 @@ Este sistema ha sido **dockerizado completamente**, separando los entornos del b
 
 ---
 
-### ⚙️ Archivo `docker-compose.yml`
 
-```yaml
-version: '3.8'
-
-services:
-    app:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        container_name: php-app
-        volumes:
-            - ./:/var/www
-        working_dir: /var/www
-        ports:
-            - "8000:8000"
-        networks:
-            - app-network
-        depends_on:
-            - db
-        environment:
-            DB_CONNECTION: mysql
-            DB_HOST: db
-            DB_PORT: 3306
-            DB_DATABASE: restaurant_db
-            DB_USERNAME: root
-            DB_PASSWORD: root
-
-    db:
-        image: mysql:8.0
-        container_name: mysql-db
-        restart: unless-stopped
-        environment:
-            MYSQL_DATABASE: restaurant_db
-            MYSQL_ROOT_PASSWORD: root
-        volumes:
-            - dbdata:/var/lib/mysql
-        ports:
-            - "3307:3306"
-        networks:
-            - app-network
-
-networks:
-    app-network:
-        driver: bridge
-
-volumes:
-    dbdata:
-
-```
-
-
-## ⚙️ Instalación y Configuración
-
-Puedes ejecutar este proyecto de dos formas: instalación local tradicional o usando Docker.
-
----
-
-## 🖥️ Instalación Local (Sin Docker)
-
-### 1. Clonar el repositorio
-```bash
-git clone https://github.com/rivacortez/Backend-Desarrollo-de-Sistema-CRUD.git
-```
-```bash
-cd Backend-Desarrollo-de-Sistema-CRUD
-```
-### 2. Instalar dependencias
-
-```bash    
-composer install
-```
-### 3. Configurar variables de entorno
-Edita el archivo .env y ajusta los valores de la base de datos:
-```bash  
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=restaurant_db
-DB_USERNAME=root //cambia tu usuario local
-DB_PASSWORD=root //cambia tu password local
-```
-
-### 4. Crear base de datos
-Asegúrate de tener un servidor MySQL corriendo localmente y crea la base de datos:
-```bash
-CREATE DATABASE restaurant_db;
-```
-### 5. Generar clave de aplicación
-```bash
-php artisan key:generate
-```
-### 6. Migrar base de datos
-```bash
-php artisan migrate
-```
-### 7. Cargar datos de prueba (opcional)
-```bash
-php artisan db:seed
-```
-### 8. Iniciar servidor
-```bash
-php artisan serve
-```
-
-### 9. Acceder a la API documentada con swagger
-```bash
-http://127.0.0.1:8000/api/documentation
-```
-
-
-# 🐳 Instalación con Docker
-### 1. Clonar el repositorio
-```bash
-git clone https://github.com/rivacortez/Backend-Desarrollo-de-Sistema-CRUD.git
-```
-```bash
-cd Backend-Desarrollo-de-Sistema-CRUD
-```
-### 2. Configura la conexión a MySQL en .env para que se conecte al contenedor db, quitale al .env.example el ".example":
-
-```bash
-DB_CONNECTION=mysql
-DB_HOST=db
-DB_PORT=3306
-DB_DATABASE=restaurant_db
-DB_USERNAME=root //cambia tu username local
-DB_PASSWORD=root //cambia tu password local
-```
-
-### 3. Construir y levantar los contenedores
-```bash
-docker-compose up -d --build
-```
-```bash
-docker-compose run --rm app composer install
-```
-```bash
-docker-compose up -d
-```
-Esto levantará los contenedores:
-
-* php-app (Laravel)
-
-* mysql-db (Base de datos)
-
-
-
-### 4. Acceder al contenedor de Laravel y  Ejecutar migraciones desde el contenedor
-```bash
-docker-compose exec app php artisan migrate
-```
-
-### url de la API documentada con swagger
-```bash
-http://127.0.0.1:8000/api/documentation
-```
 ## 🌐 API
 
 La aplicación expone una API RESTful documentada con Swagger (OpenAPI), permitiendo probar los endpoints de manera interactiva y facilitar la integración con otros sistemas.
