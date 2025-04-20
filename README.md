@@ -318,7 +318,7 @@ docker-compose up -d --build
 docker-compose run --rm app composer install
 ```
 ```bash
-docker-compose run --rm app composer install
+docker-compose up -d
 ```
 Esto levantará los contenedores:
 
@@ -326,10 +326,7 @@ Esto levantará los contenedores:
 
 * mysql-db (Base de datos)
 
-###
-```bash
-docker-compose run --rm app composer install
-```
+
 
 ### 4. Acceder al contenedor de Laravel y  Ejecutar migraciones desde el contenedor
 ```bash
