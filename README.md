@@ -103,9 +103,14 @@ ReservationManagement/
 /api/documentation – Interfaz interactiva de Swagger UI
 ```
 # 🧪 Pruebas Unitarias
+
+## necesita crearse una base de datos local en mysql que se llame "restaurant_db_test"
+
+despues ejecuta el comando:
 ``` bash
 php artisan test
 ```
+
 
 Este proyecto incluye una **suite completa de pruebas unitarias** diseñada para garantizar la **calidad**, **estabilidad** y **correctitud** de cada capa de la aplicación.  
 Las pruebas están organizadas conforme a la **Arquitectura Hexagonal** y siguen los principios de **Domain-Driven Design (DDD)**.
@@ -299,7 +304,7 @@ git clone https://github.com/rivacortez/Backend-Desarrollo-de-Sistema-CRUD.git
 ```bash
 cd Backend-Desarrollo-de-Sistema-CRUD
 ```
-### 2. Configura la conexión a MySQL en .env para que se conecte al contenedor db:
+### 2. Configura la conexión a MySQL en .env para que se conecte al contenedor db, quitale al .env.example el ".example":
 
 ```bash
 DB_CONNECTION=mysql
